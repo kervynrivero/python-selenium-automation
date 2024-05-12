@@ -12,52 +12,33 @@ SEARCH_BTN = (By.XPATH, "//button[@data-test='@web/Search/SearchButton']")
 CART_ICON = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
 HEADER = (By.CSS_SELECTOR, "[class*='UtilityHeaderWrapper']")
 HEADER_LINKS = (By.CSS_SELECTOR, "a[id*='utilityNav']")
-PRODUCT_LOCATOR = (By.CSS_SELECTOR, "[id*=addToCartButtonOrTextIdFor13397813]")
-PRODUCT_LOCATOR2 = (By.CSS_SELECTOR, "#addToCartButtonOrTextIdFor13397813.styles__StyledBaseButtonInternal-sc-ysboml-0[aria-label*='Add to cart']")
-PRODUCT_LOCATOR3 = (By.CSS_SELECTOR,"a[href='/cart']")
-TOTAL = (By.CSS_SELECTOR, "div.styles__StyledHeading-sc-1ge2jts-1.bmsjWz")
 
 @given('Open Target main page')
 def open_target(context):
     context.app.main_page.open_main()
-    #context.driver.get('https://www.target.com/')
-
 
 @when('Click Sign in from dropdown')
 def click_sign_in_dropdown(context):
-    #context.driver.find_element(*SIGN_IN_DROPDOWN).click()
-    #sleep(5)
-    context.wait.until(EC.element_to_be_clickable(SIGN_IN_DROPDOWN)).click()
-
+    context.app.side_menu_page.click_sign_in_dropdown()
+    #context.wait.until(EC.element_to_be_clickable(SIGN_IN_DROPDOWN)).click()
 
 @then('Verify Sign in form opened')
 def verify_sign_in(context):
-    context.driver.find_element(*SIGN_IN_FORM)
+    context.app.sign_in_form_page.verify_sign_in()
+    #context.driver.find_element(*SIGN_IN_FORM)
 
 @when('Click on Sign in')
 def click_sign_in(context):
-
-    #context.driver.find_element(*SIGN_IN_BUTTON).click()
-    context.wait.until(EC.element_to_be_clickable(SIGN_IN_BUTTON)).click()
-    #sleep(5)
-
+    #context.wait.until(EC.element_to_be_clickable(SIGN_IN_BUTTON)).click()
+    context.app.header.click_sign_in()
 @when("Search for {item}")
 def search_product(context, item):
     context.app.header.search_product(item)
 
-    #context.driver.find_element(*SEARCH_INPUT).send_keys(item)
-    #context.driver.find_element(*SEARCH_BTN).click()
-    #Need to keep sleep after clicking I could not use wait#
-    #context.wait.until(EC.element_to_be_clickable(SEARCH_BTN)).click()
-    #sleep(6)
-
 
 @when('Click on cart icon')
 def click_cart(context):
-    #context.driver.find_element(*CART_ICON).click()
-    #sleep(6)
-    context.wait.until(EC.element_to_be_clickable(CART_ICON)).click()
-
+    context.app.header.click_go_to_cart()
 
 @then('Verify header in shown')
 def verify_header_shown(context):
@@ -73,11 +54,11 @@ def verify_header_links(context, expected_amount): # expected_amount = '5'
 @when('Adding product to cart')
 def add_to_cart(context):
 
-    context.wait.until(EC.element_to_be_clickable(PRODUCT_LOCATOR)).click()
-    context.wait.until(EC.element_to_be_clickable(PRODUCT_LOCATOR2)).click()
-    context.wait.until(EC.element_to_be_clickable(PRODUCT_LOCATOR3)).click()
 
+    context.app.search_result_page.click_add_to_cart_button()
+    context.app.product_side_bar.add_to_cart_product()
+    context.app.product_side_bar.view_cart_click()
 
 @then('Verify product in our cart in cart page')
 def verify_product(context):
-    context.driver.find_element(*TOTAL)
+    context.app.cart_page.verify_product()

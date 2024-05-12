@@ -17,6 +17,8 @@ def browser_init(context):
     context.driver.implicitly_wait(7)
 
     context.wait = WebDriverWait(context.driver, timeout=15)
+
+
     context.app = Application(context.driver)
 
 def before_scenario(context, scenario):
