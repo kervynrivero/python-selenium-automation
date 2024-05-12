@@ -19,7 +19,8 @@ TOTAL = (By.CSS_SELECTOR, "div.styles__StyledHeading-sc-1ge2jts-1.bmsjWz")
 
 @given('Open Target main page')
 def open_target(context):
-    context.driver.get('https://www.target.com/')
+    context.app.main_page.open_main()
+    #context.driver.get('https://www.target.com/')
 
 
 @when('Click Sign in from dropdown')
@@ -42,13 +43,13 @@ def click_sign_in(context):
 
 @when("Search for {item}")
 def search_product(context, item):
-    context.driver.find_element(*SEARCH_INPUT).send_keys(item)
-    context.driver.find_element(*SEARCH_BTN).click()
+    context.app.header.search_product(item)
+
+    #context.driver.find_element(*SEARCH_INPUT).send_keys(item)
+    #context.driver.find_element(*SEARCH_BTN).click()
     #Need to keep sleep after clicking I could not use wait#
     #context.wait.until(EC.element_to_be_clickable(SEARCH_BTN)).click()
-
-
-    sleep(6)
+    #sleep(6)
 
 
 @when('Click on cart icon')
@@ -76,14 +77,6 @@ def add_to_cart(context):
     context.wait.until(EC.element_to_be_clickable(PRODUCT_LOCATOR2)).click()
     context.wait.until(EC.element_to_be_clickable(PRODUCT_LOCATOR3)).click()
 
-
-
-    #context.driver.find_element(*PRODUCT_LOCATOR).click()
-    #sleep(4)
-    #context.driver.find_element(*PRODUCT_LOCATOR2).click()
-    #sleep(4)
-    #context.driver.find_element(*PRODUCT_LOCATOR3).click()
-    #sleep(4)
 
 @then('Verify product in our cart in cart page')
 def verify_product(context):
